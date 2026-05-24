@@ -34,11 +34,11 @@ const categories = [
 
 export const CategoryGrid = () => {
   return (
-    <section className="py-20 bg-[#FBFBFB]">
+    <section className="py-20 bg-brand-white dark:bg-transparent">
       <div className="max-w-7xl mx-auto px-4 md:px-10">
         <div className="flex flex-col items-center mb-12">
           <h2 className="text-3xl md:text-4xl font-editorial mb-2 uppercase tracking-widest">Shop By Category</h2>
-          <div className="w-12 h-[1px] bg-black mt-2" />
+          <div className="w-12 h-[1px] bg-foreground mt-2" />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
@@ -74,7 +74,7 @@ export const CategoryGrid = () => {
         <div className="flex justify-center mt-12">
           <Link 
             href="/shop"
-            className="bg-black text-white px-10 py-3 text-xs uppercase tracking-[0.2em] font-bold hover:bg-gray-800 transition-colors"
+            className="bg-foreground text-background px-10 py-3 text-xs uppercase tracking-[0.2em] font-bold hover:opacity-80 transition-colors"
           >
             Explore All
           </Link>

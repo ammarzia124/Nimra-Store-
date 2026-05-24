@@ -36,11 +36,11 @@ export const Reviews = () => {
   const [current, setCurrent] = useState(0);
 
   return (
-    <section className="py-24 bg-gray-50 overflow-hidden">
+    <section className="py-24 bg-gray-50 dark:bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-10">
         <div className="flex flex-col items-center mb-16 text-center">
           <h2 className="text-2xl md:text-3xl font-editorial mb-4 uppercase tracking-widest">You make us love what we do!</h2>
-          <p className="text-[10px] text-gray-500 uppercase tracking-[0.3em]">Customer Stories</p>
+          <p className="text-[10px] text-muted uppercase tracking-[0.3em]">Customer Stories</p>
         </div>
 
         <div className="relative">
@@ -48,16 +48,16 @@ export const Reviews = () => {
             {reviews.map((review) => (
               <motion.div
                 key={review.id}
-                className="min-w-[300px] md:min-w-[400px] bg-white p-8 snap-center border border-gray-100 shadow-sm"
+                className="min-w-[300px] md:min-w-[400px] bg-background p-8 snap-center border border-border shadow-sm"
               >
                 <div className="flex gap-1 mb-6">
                   {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-black text-black" />
+                    <Star key={i} className="w-4 h-4 fill-foreground text-foreground" />
                   ))}
                 </div>
                 
-                <p className="text-sm italic text-gray-700 leading-relaxed mb-8">
-                  "{review.text}"
+                <p className="text-sm italic text-foreground/80 leading-relaxed mb-8">
+                  &quot;{review.text}&quot;
                 </p>
 
                 <div className="flex items-center gap-4">
@@ -77,10 +77,7 @@ export const Reviews = () => {
           </div>
 
           <div className="flex justify-center gap-4 mt-8">
-            <button className="p-2 border border-black/10 hover:border-black transition-colors rounded-full">
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button className="p-2 border border-black/10 hover:border-black transition-colors rounded-full">
+            <button className="p-2 border border-border hover:border-foreground transition-colors rounded-full">
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>

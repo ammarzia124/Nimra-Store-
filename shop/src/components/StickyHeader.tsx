@@ -35,6 +35,9 @@ export const StickyHeader = () => {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
@@ -70,7 +73,7 @@ export const StickyHeader = () => {
     <>
       {/* Announcement Bar: Absolute on Home ONLY, disappears on scroll */}
       {isHome && (
-        <div className="absolute top-0 left-0 right-0 z-[110] bg-black text-white h-10 flex items-center justify-center overflow-hidden border-b border-white/5">
+        <div className="absolute top-0 left-0 right-0 z-[110] bg-[#000000] text-[#FFFFFF] h-10 flex items-center justify-center overflow-hidden border-b border-white/5">
           <AnimatePresence mode="wait">
             <motion.div
               key={announcementIndex}

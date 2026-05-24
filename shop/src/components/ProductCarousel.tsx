@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useRef } from "react";
-import ProductCard from "./ProductCard";
+import { ProductCard } from "./ProductCard";
 
-const products = [
-  { id: "1", name: "Classic Trench", price: "$320.00", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop" },
-  { id: "2", name: "Silk Blouse", price: "$180.00", image: "https://images.unsplash.com/photo-1539109132381-31512579f410?q=80&w=800&auto=format&fit=crop" },
-  { id: "3", name: "Wool Trousers", price: "$240.00", image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop" },
-  { id: "4", name: "Linen Blazer", price: "$290.00", image: "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?q=80&w=800&auto=format&fit=crop" },
-  { id: "5", name: "Leather Boots", price: "$450.00", image: "https://images.unsplash.com/photo-1520639889313-7247ff57bb5a?q=80&w=800&auto=format&fit=crop" },
+import { Product } from "@/lib/products";
+
+const products: Product[] = [
+  { id: "1", name: "Classic Trench", price: 320, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop", category: "women", stock: 10 },
+  { id: "2", name: "Silk Blouse", price: 180, image: "https://images.unsplash.com/photo-1539109132381-31512579f410?q=80&w=800&auto=format&fit=crop", category: "women", stock: 5 },
+  { id: "3", name: "Wool Trousers", price: 240, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop", category: "women", stock: 15 },
+  { id: "4", name: "Linen Blazer", price: 290, image: "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?q=80&w=800&auto=format&fit=crop", category: "women", stock: 8 },
+  { id: "5", name: "Leather Boots", price: 450, image: "https://images.unsplash.com/photo-1520639889313-7247ff57bb5a?q=80&w=800&auto=format&fit=crop", category: "women", stock: 2 },
 ];
 
 const ProductCarousel: React.FC = () => {
@@ -55,7 +57,7 @@ const ProductCarousel: React.FC = () => {
             key={product.id}
             className="min-w-[83.33%] md:min-w-[calc(33.33%-1rem)] snap-start shrink-0"
           >
-            <ProductCard {...product} />
+            <ProductCard product={product} />
           </div>
         ))}
       </div>

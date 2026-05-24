@@ -39,68 +39,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* =========================================
-   LUXURY GLOBAL OVERRIDES
-   Dynamically adapts JSX classes to theme
-   ========================================= */
 
-/* Typography Refinements */
-h1, h2, h3, h4 {
-  letter-spacing: -0.02em;
-}
-.dark h1, .dark h2, .dark h3, .dark h4 {
-  letter-spacing: -0.01em; /* Prevents visual bleed on dark backgrounds */
-}
-
-/* Background Color Adaptations */
-.dark .bg-white,
-.dark .bg-\[\#fafafa\],
-.dark .bg-\[\#FBFBFB\],
-.dark .bg-gray-100 {
-  background-color: var(--background) !important;
-}
-
-.dark .bg-black,
-.dark .bg-gray-900 {
-  background-color: var(--foreground) !important;
-  color: var(--background) !important;
-}
-
-/* Text Color Adaptations */
-.dark .text-black,
-.dark .text-gray-900 {
-  color: var(--foreground) !important;
-}
-
-.dark .text-gray-500,
-.dark .text-gray-400,
-.dark .text-gray-300 {
-  color: var(--muted) !important;
-}
-
-.dark .bg-black .text-white {
-  color: var(--background) !important;
-}
-
-/* Border Adaptations */
-.dark .border-black,
-.dark .border-gray-900 {
-  border-color: var(--foreground) !important;
-}
-
-.dark .border-gray-100,
-.dark .border-white {
-  border-color: var(--border) !important;
-}
-
-/* Interactive States */
-.dark .bg-black:hover {
-  background-color: #D4D4D8 !important; /* Premium Zinc-300 hover */
-  color: #000000 !important;
-}
-.dark .bg-white:hover {
-  background-color: #18181B !important; /* Zinc-900 hover */
-}
 
 body {
   @apply bg-background text-foreground antialiased cursor-default selection:bg-black selection:text-white;

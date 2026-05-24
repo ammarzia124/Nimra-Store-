@@ -6,6 +6,7 @@ export interface Product {
   image: string;
   stock: number;
   tag?: string;
+  discount?: number;
 }
 
 export const products: Product[] = [
@@ -29,7 +30,7 @@ export const getProductsByCategory = (category: string) => {
     return Array.from({ length: 24 }).map((_, i) => ({
       id: `${category}-${i}`,
       name: `${category.charAt(0).toUpperCase() + category.slice(1)} Performance Piece ${i + 1}`,
-      category: category as any,
+      category: category as "men" | "women" | "kids" | "beauty" | "accessories",
       price: 120 + (i * 10),
       image: i % 2 === 0 ? "/images/hero-1.png" : "/images/hero-2.png",
       stock: i % 5 === 0 ? 3 : 10,

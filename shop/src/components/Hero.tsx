@@ -8,13 +8,13 @@ export const Hero = () => {
   return (
     <section className="relative h-[90vh] w-full overflow-hidden">
       <Image
-        src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2000&auto=format&fit=crop"
         alt="The Sunset Edit"
         fill
         className="object-cover"
         priority
       />
-      <div className="absolute inset-0 bg-black/10" />
+      <div className="absolute inset-0 bg-black/10 dark:bg-black/50 transition-colors duration-500" />
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center">
         <motion.span
           initial={{ opacity: 0, y: 20 }}

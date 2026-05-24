@@ -27,7 +27,7 @@ export const Lookbook = () => {
     <section className="py-24 px-4 md:px-10 max-w-7xl mx-auto">
       <div className="flex flex-col items-center mb-16 text-center">
         <h2 className="text-sm uppercase tracking-[0.5em] font-bold mb-4">In The Look</h2>
-        <p className="text-xs text-gray-500 uppercase tracking-widest">Our Seasonal Story</p>
+        <p className="text-xs text-muted uppercase tracking-widest">Our Seasonal Story</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

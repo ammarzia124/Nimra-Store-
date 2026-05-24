@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "High-Performa | The High-End Fashion Platform",
+  title: "Nimra Store",
   description: "High-Performa is a premium e-commerce platform focused on high-end fashion, technical apparel, and architectural design.",
   icons: {
     icon: "/images/logo-clean.png",
