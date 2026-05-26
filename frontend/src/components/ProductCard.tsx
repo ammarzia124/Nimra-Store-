@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Heart, AlertCircle, Eye } from "lucide-react";
@@ -21,8 +22,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const isLowStock = product.stock !== undefined && product.stock > 0 && product.stock < 5;
 
   return (
-    <div 
-      className="group flex flex-col"
+    <Link 
+      href={`/product/${product.id}`}
+      className="group flex flex-col cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -100,6 +102,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {product.category} • Engineered Fit
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
