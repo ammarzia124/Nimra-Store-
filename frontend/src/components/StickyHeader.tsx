@@ -6,7 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./Logo";
 import { ShoppingBag, Search, Menu, X, User, Heart, Instagram, Facebook, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+const MOCK_PRODUCTS = [
+  { id: 1, name: "The Kinetic Chronograph", price: "Rs. 24,500", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400", category: "Watches" },
+  { id: 2, name: "Minimalist Leather Tote", price: "Rs. 18,000", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=400", category: "Bags" },
+  { id: 3, name: "Silk Blend Evening Dress", price: "Rs. 45,000", image: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&q=80&w=400", category: "Pret" },
+  { id: 4, name: "Signature Velvet Loafers", price: "Rs. 12,500", image: "https://images.unsplash.com/photo-1614252339460-e1763aa8eb3e?auto=format&fit=crop&q=80&w=400", category: "Shoes" }
+];
 
 export const StickyHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,6 +28,8 @@ export const StickyHeader = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = React.useRef<HTMLInputElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
+  const [debouncedQuery, setDebouncedQuery] = useState("");
 
   const isHome = pathname === "/";
   const shouldBeSolid = !isHome || isScrolled;
@@ -34,6 +43,7 @@ export const StickyHeader = () => {
   ];
 
   useEffect(() => {
+    // eslint-disable-next-line
     setMounted(true);
   }, []);
 
@@ -57,7 +67,31 @@ export const StickyHeader = () => {
     if (isSearchOpen && searchInputRef.current) {
       searchInputRef.current.focus();
     }
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isSearchOpen) {
+        setIsSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isSearchOpen]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      setIsSearchOpen(false);
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const filteredProducts = debouncedQuery 
+    ? MOCK_PRODUCTS.filter(p => p.name.toLowerCase().includes(debouncedQuery.toLowerCase()) || p.category.toLowerCase().includes(debouncedQuery.toLowerCase()))
+    : [];
 
   const handleWishlistClick = () => {
     console.log("Added to Wishlist");
@@ -318,66 +352,89 @@ export const StickyHeader = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="fixed inset-0 z-[300] flex flex-col p-12 md:p-24 bg-black/90 backdrop-blur-[8px] text-white"
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="fixed inset-0 z-[99999] flex flex-col p-8 md:p-12 bg-black/90 backdrop-blur-2xl text-white transition-all duration-300 ease-in-out overflow-y-auto no-scrollbar"
           >
-            <div className="flex justify-between items-center mb-24">
+            <div className="flex justify-between items-start w-full">
               <Logo isScrolled={true} theme="dark" className="h-10 w-auto" />
               <button 
                 onClick={() => setIsSearchOpen(false)}
-                className="flex items-center space-x-4 group"
+                className="flex items-center space-x-3 group mt-2"
               >
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-60 group-hover:opacity-100 transition-opacity">Close</span>
-                <X className="w-8 h-8 stroke-[1px] group-hover:rotate-90 transition-transform duration-500" />
+                <span className="text-xs uppercase tracking-[0.2em] text-neutral-400 group-hover:text-white transition-colors">CLOSE</span>
+                <X className="w-6 h-6 stroke-[1px] text-white group-hover:rotate-90 transition-transform duration-500" />
               </button>
             </div>
             
-            <div className="flex-1 flex flex-col justify-center max-w-5xl mx-auto w-full">
-              <h2 className="text-[10px] uppercase tracking-[0.8em] font-bold mb-8 text-white/40">Search the Universe</h2>
-              <div className="relative border-b border-white/20 pb-8 group focus-within:border-white transition-colors duration-700">
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="START TYPING..."
-                  className="w-full bg-transparent text-5xl md:text-9xl font-editorial font-bold italic tracking-tighter text-white placeholder:text-white/5 outline-none"
-                />
-                <Search className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 opacity-30 group-focus-within:opacity-100 transition-opacity" />
-              </div>
-              
-              <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div className="space-y-8">
-                  <h4 className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/30 border-b border-white/10 pb-4">Trending Now</h4>
-                  <div className="flex flex-col space-y-6 text-sm tracking-[0.1em] font-light">
-                    {["Unstitched Luxury", "Lawn '26", "Pret Essentials", "Signature Series"].map((term) => (
-                      <button key={term} className="text-left hover:text-white/60 transition-colors flex items-center group">
-                        <span className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 opacity-0 group-hover:opacity-100 mr-0 group-hover:mr-2">/</span>
-                        {term}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-8">
-                  <h4 className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/30 border-b border-white/10 pb-4">Quick Links</h4>
-                  <div className="flex flex-col space-y-6 text-sm tracking-[0.1em] font-light">
-                    {["Track Order", "Store Locator", "Size Guide", "Contact Us"].map((link) => (
-                      <button key={link} className="text-left hover:text-white/60 transition-colors">{link}</button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="hidden md:block">
-                  <div className="bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group">
-                    <span className="text-[9px] uppercase tracking-[0.4em] font-bold text-red-500 mb-4 block">New Drop</span>
-                    <h5 className="text-xl font-editorial italic font-bold mb-4">The Kinetic Series</h5>
-                    <p className="text-xs text-white/40 leading-relaxed group-hover:text-white/60 transition-colors">
-                      Discover the intersection of technical performance and architectural elegance.
-                    </p>
-                  </div>
+            <div className="flex-1 flex flex-col justify-start pt-[15vh] max-w-3xl mx-auto w-full">
+              <div className="w-full relative">
+                <h2 className="text-xs uppercase tracking-[0.2em] text-neutral-400 mb-6">SEARCH THE UNIVERSE</h2>
+                <div className="relative border-b border-white/10 focus-within:border-white/40 transition-colors duration-500 pb-4 group flex items-center">
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleSearchSubmit}
+                    placeholder="START TYPING..."
+                    style={!searchQuery ? { fontFamily: 'Didot, "Bodoni MT", Cinzel, Georgia, serif' } : {}}
+                    className={`w-full bg-transparent text-5xl md:text-6xl focus:outline-none focus:ring-0 text-white placeholder-neutral-500 transition-all duration-300 ${
+                      searchQuery ? "font-sans font-light tracking-tight" : "italic font-light tracking-widest"
+                    }`}
+                  />
+                  <Search className="absolute right-0 w-7 h-7 stroke-[1.5px] text-neutral-400 group-focus-within:text-white transition-colors" />
                 </div>
               </div>
+
+              {/* Live Search Results */}
+              <AnimatePresence>
+                {debouncedQuery && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    className="mt-16 w-full"
+                  >
+                    {filteredProducts.length > 0 ? (
+                      <>
+                        <h3 className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 mb-8 border-b border-white/10 pb-4">Suggested Products</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 w-full">
+                          {filteredProducts.map((product) => (
+                            <Link 
+                              href={`/product/${product.id}`} 
+                              key={product.id}
+                              onClick={() => setIsSearchOpen(false)}
+                              className="group flex flex-col space-y-4"
+                            >
+                              <div className="aspect-[4/5] w-full overflow-hidden bg-white/5 relative">
+                                <img 
+                                  src={product.image} 
+                                  alt={product.name}
+                                  className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-in-out"
+                                />
+                              </div>
+                              <div className="flex flex-col space-y-1">
+                                <span className="text-sm font-light tracking-wide text-white/90">{product.name}</span>
+                                <span className="text-xs font-medium text-white/50">{product.price}</span>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center py-20">
+                        <p 
+                          className="text-neutral-400 italic text-xl tracking-wide"
+                          style={{ fontFamily: 'Didot, "Bodoni MT", Cinzel, Georgia, serif' }}
+                        >
+                          No collections found matching &apos;{debouncedQuery}&apos;
+                        </p>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
