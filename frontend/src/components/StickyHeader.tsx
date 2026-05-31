@@ -9,10 +9,10 @@ import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 
 const MOCK_PRODUCTS = [
-  { id: 1, name: "The Kinetic Chronograph", price: "Rs. 24,500", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400", category: "Watches" },
-  { id: 2, name: "Minimalist Leather Tote", price: "Rs. 18,000", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=400", category: "Bags" },
-  { id: 3, name: "Silk Blend Evening Dress", price: "Rs. 45,000", image: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&q=80&w=400", category: "Pret" },
-  { id: 4, name: "Signature Velvet Loafers", price: "Rs. 12,500", image: "https://images.unsplash.com/photo-1614252339460-e1763aa8eb3e?auto=format&fit=crop&q=80&w=400", category: "Shoes" }
+  { id: 1, name: "The Kinetic Chronograph", price: "Rs. 24,500", image: "/images/hero-1.png", category: "Watches" },
+  { id: 2, name: "Minimalist Leather Tote", price: "Rs. 18,000", image: "/images/hero-2.png", category: "Bags" },
+  { id: 3, name: "Silk Blend Evening Dress", price: "Rs. 45,000", image: "/images/hero-3.png", category: "Pret" },
+  { id: 4, name: "Signature Velvet Loafers", price: "Rs. 12,500", image: "/images/hero-4.png", category: "Shoes" }
 ];
 
 export const StickyHeader = () => {
@@ -64,8 +64,9 @@ export const StickyHeader = () => {
   }, [announcements.length]);
 
   useEffect(() => {
+    let focusTimer: NodeJS.Timeout;
     if (isSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
+      focusTimer = setTimeout(() => searchInputRef.current?.focus(), 50);
     }
     
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -74,7 +75,10 @@ export const StickyHeader = () => {
       }
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      if (focusTimer) clearTimeout(focusTimer);
+    };
   }, [isSearchOpen]);
 
   useEffect(() => {
@@ -353,7 +357,7 @@ export const StickyHeader = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="fixed inset-0 z-[99999] flex flex-col p-8 md:p-12 bg-black/90 backdrop-blur-2xl text-white transition-all duration-300 ease-in-out overflow-y-auto no-scrollbar"
+            className="fixed inset-0 z-[99999] flex flex-col p-8 md:p-12 bg-black/95 backdrop-blur-2xl text-white transition-all duration-300 ease-in-out overflow-y-auto no-scrollbar"
           >
             <div className="flex justify-between items-start w-full">
               <Logo isScrolled={true} theme="dark" className="h-10 w-auto" />
@@ -366,7 +370,7 @@ export const StickyHeader = () => {
               </button>
             </div>
             
-            <div className="flex-1 flex flex-col justify-start pt-[15vh] max-w-3xl mx-auto w-full">
+            <div className="flex-1 flex flex-col justify-start pt-[15vh] max-w-3xl mx-auto w-full px-6 sm:px-8">
               <div className="w-full relative">
                 <h2 className="text-xs uppercase tracking-[0.2em] text-neutral-400 mb-6">SEARCH THE UNIVERSE</h2>
                 <div className="relative border-b border-white/10 focus-within:border-white/40 transition-colors duration-500 pb-4 group flex items-center">
@@ -378,7 +382,7 @@ export const StickyHeader = () => {
                     onKeyDown={handleSearchSubmit}
                     placeholder="START TYPING..."
                     style={!searchQuery ? { fontFamily: 'Didot, "Bodoni MT", Cinzel, Georgia, serif' } : {}}
-                    className={`w-full bg-transparent text-5xl md:text-6xl focus:outline-none focus:ring-0 text-white placeholder-neutral-500 transition-all duration-300 ${
+                    className={`w-full bg-transparent text-2xl sm:text-4xl md:text-5xl focus:outline-none focus:ring-0 text-white placeholder-neutral-500 transition-all duration-300 ${
                       searchQuery ? "font-sans font-light tracking-tight" : "italic font-light tracking-widest"
                     }`}
                   />
@@ -399,7 +403,7 @@ export const StickyHeader = () => {
                     {filteredProducts.length > 0 ? (
                       <>
                         <h3 className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 mb-8 border-b border-white/10 pb-4">Suggested Products</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 w-full">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 w-full">
                           {filteredProducts.map((product) => (
                             <Link 
                               href={`/product/${product.id}`} 
@@ -414,9 +418,10 @@ export const StickyHeader = () => {
                                   className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-in-out"
                                 />
                               </div>
-                              <div className="flex flex-col space-y-1">
-                                <span className="text-sm font-light tracking-wide text-white/90">{product.name}</span>
-                                <span className="text-xs font-medium text-white/50">{product.price}</span>
+                              <div className="flex flex-col">
+                                <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-500 mb-1">{product.category}</span>
+                                <span className="text-sm font-light tracking-wide text-white/90 truncate">{product.name}</span>
+                                <span className="text-xs font-medium text-white/50 mt-1">{product.price}</span>
                               </div>
                             </Link>
                           ))}
