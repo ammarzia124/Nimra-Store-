@@ -32,8 +32,8 @@ export const LuxuryLoader = () => {
             className="relative w-48 md:w-64 aspect-[3/1]"
           >
             <Image
-              src="/images/logo-clean.png"
-              alt="Label by Nimra"
+              src="/images/transparent-logo.png"
+              alt="LABEL BY NIMRAH FASHION STORE"
               fill
               className="object-contain"
               priority
