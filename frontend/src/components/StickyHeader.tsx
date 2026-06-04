@@ -165,7 +165,7 @@ export const StickyHeader = () => {
                 <Logo 
                   isScrolled={isScrolled || !isHome} 
                   theme={isHome ? "dark" : currentTheme}
-                  className="w-48 md:w-64 h-16 md:h-20 !transition-none" 
+                  className="w-56 md:w-80 h-20 md:h-28 !transition-none" 
                 />
               </div>
             </div>
