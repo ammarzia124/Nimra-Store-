@@ -14,10 +14,26 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const { formatPrice } = useCurrency();
-  const [isHovered, setIsHovered] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  // Mock secondary image for swap effect
-  const secondaryImage = product.image; // In a real app, this would be product.images[1]
+  // Fallback Placeholder for strict source file fallbacks
+  const fallbackPlaceholder = "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop";
+
+  // Build array and implement defensive array-bound checks
+  const rawImages = [product.image, (product as any).secondaryImage].filter(Boolean);
+  const imageArray = rawImages.length > 0 ? rawImages : [fallbackPlaceholder];
+  const hasMultipleImages = imageArray.length >= 2 && imageArray[0] !== imageArray[1];
+
+  // Hardcode unified state event mechanism
+  const handleMouseEnter = () => {
+    if (hasMultipleImages) {
+      setActiveImageIndex(1);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setActiveImageIndex(0);
+  };
 
   const isLowStock = product.stock !== undefined && product.stock > 0 && product.stock < 5;
 
@@ -25,24 +41,36 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     <Link 
       href={`/product/${product.id}`}
       className="group flex flex-col cursor-pointer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <div className="relative aspect-[3/4] overflow-hidden bg-foreground/5 mb-6">
-        {/* Task 1: Image Swap on Hover */}
-        <div className="absolute inset-0">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className={`object-cover transition-transform duration-1000 group-hover:scale-110 ${isHovered ? "opacity-0" : "opacity-100"}`}
-          />
-          <Image
-            src={secondaryImage}
-            alt={`${product.name} alternate`}
-            fill
-            className={`object-cover transition-transform duration-1000 scale-110 group-hover:scale-100 ${isHovered ? "opacity-100" : "opacity-0"}`}
-          />
+      <div 
+        className="relative bg-foreground/5 mb-6 w-full overflow-hidden"
+        style={{ aspectRatio: '3/4' }}
+      >
+        {/* Task 1 & Task 2: State-driven image rendering loop */}
+        <div className="absolute inset-0 w-full h-full">
+          {imageArray.slice(0, 2).map((src, index) => (
+            <Image
+              key={`${src}-${index}`}
+              src={src}
+              alt={`${product.name} - view ${index + 1}`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              style={{ objectFit: 'cover', display: 'block' }}
+              className={`transition-all duration-1000 ease-in-out ${
+                activeImageIndex === index 
+                  ? 'opacity-100 scale-100 z-10' 
+                  : 'opacity-0 scale-105 z-0'
+              }`}
+              onError={(e) => {
+                // Establish Strict Source File Fallbacks on Error
+                const target = e.target as HTMLImageElement;
+                target.srcset = "";
+                target.src = fallbackPlaceholder;
+              }}
+            />
+          ))}
         </div>
 
         {/* Task 1: Top-left Badges */}
@@ -81,7 +109,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="w-full bg-black hover:bg-neutral-900 text-white py-4 text-[11px] uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-2 shadow-xl"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+              window.dispatchEvent(new CustomEvent("cart-add"));
+            }}
           >
             <ShoppingCart className="w-4 h-4" />
             Add to Cart

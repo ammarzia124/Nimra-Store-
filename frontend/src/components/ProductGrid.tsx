@@ -69,8 +69,14 @@ export const ProductGrid = ({ title }: { title: string }) => {
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
-              <button className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background text-foreground text-[10px] uppercase tracking-widest px-6 py-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                Quick Add
+              <button 
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background text-foreground text-[10px] uppercase tracking-widest px-6 py-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent("cart-add"));
+                }}
+              >
+                Add to Cart
               </button>
             </div>
             <div className="text-center">

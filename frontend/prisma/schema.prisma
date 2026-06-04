@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  price       Float
+  image       String
+  images      String?  // Store multiple image URLs as JSON array string
+  stock       Int      @default(0)
+  description String?
+  tag         String?
+  discount    Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

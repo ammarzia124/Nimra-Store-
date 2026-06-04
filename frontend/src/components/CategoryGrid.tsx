@@ -7,27 +7,27 @@ import Link from "next/link";
 const categories = [
   {
     name: "Tops",
-    image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?q=80&w=800&auto=format&fit=crop",
     link: "/shop/tops",
   },
   {
     name: "Bottoms",
-    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop",
     link: "/shop/bottoms",
   },
   {
     name: "Skirts",
-    image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=800&auto=format&fit=crop",
     link: "/shop/skirts",
   },
   {
     name: "Pants",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop",
     link: "/shop/pants",
   },
   {
     name: "Kids",
-    image: "/images/kids-hero.png",
+    image: "https://images.unsplash.com/photo-1519238396349-299f1504938a?q=80&w=800&auto=format&fit=crop",
     link: "/kids",
   },
 ];

@@ -57,8 +57,14 @@ export const StickyHeader = () => {
       setAnnouncementIndex((prev) => (prev + 1) % announcements.length);
     }, 5000);
 
+    const handleCartAdd = () => {
+      setCartCount(prev => prev + 1);
+    };
+    window.addEventListener("cart-add", handleCartAdd);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("cart-add", handleCartAdd);
       clearInterval(interval);
     };
   }, [announcements.length]);

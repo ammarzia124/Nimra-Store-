@@ -7,17 +7,17 @@ import { Plus } from "lucide-react";
 const editorialShots = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1539008835154-732475dbe134?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop", // Women's
     pos: "top-1/2 left-1/2",
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=800&auto=format&fit=crop", // Men's
     pos: "top-[40%] left-[60%]",
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?q=80&w=800&auto=format&fit=crop", // Kids
     pos: "top-[60%] left-[40%]",
   },
 ];
