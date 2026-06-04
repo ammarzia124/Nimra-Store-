@@ -24,7 +24,7 @@ const products: Product[] = [
     id: 2,
     name: "Linen Button-Up Shirt",
     price: "Rs. 3,200",
-    image: "https://images.unsplash.com/photo-1539109132381-31a1ecbfad2b?q=80&w=1920&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1920&auto=format&fit=crop",
     category: "New Arrivals",
   },
   {

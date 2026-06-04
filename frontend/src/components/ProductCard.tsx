@@ -76,31 +76,39 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Task 1: CTA Repair (Solid black, white text, magnetic hover scale) */}
-        <div className="absolute inset-0 flex items-end justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+        <div className="absolute inset-0 flex items-end justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-10">
           <motion.button 
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            className="w-full bg-black text-white py-5 text-[10px] uppercase tracking-[0.3em] font-bold flex items-center justify-center gap-3 active:scale-95"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full bg-black hover:bg-neutral-900 text-white py-4 text-[11px] uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-2 shadow-xl"
+            onClick={(e) => e.preventDefault()}
           >
-            <ShoppingCart className="w-3.5 h-3.5" />
-            Add to System
+            <ShoppingCart className="w-4 h-4" />
+            Add to Cart
           </motion.button>
         </div>
       </div>
 
       {/* Info */}
-      <div className="flex flex-col space-y-2">
-        <div className="flex justify-between items-start">
-          <h3 className="text-xs uppercase tracking-widest font-bold text-foreground/80">
-            {product.name}
-          </h3>
-          <span className="text-xs font-bold tracking-tight">
+      <div className="flex flex-col space-y-2 mt-1">
+        <div className="flex justify-between items-start gap-3">
+          <div className="flex flex-col min-w-0">
+            <h3 className="text-sm font-bold tracking-wide text-foreground group-hover:text-accent transition-colors duration-300 truncate">
+              {product.name}
+            </h3>
+            <p className="text-[10px] text-foreground/50 uppercase tracking-wider mt-1">
+              {product.category} • Engineered Fit
+            </p>
+          </div>
+          <span className="text-sm font-bold tracking-tight px-2 py-1 bg-foreground/5 rounded-sm group-hover:bg-foreground group-hover:text-background transition-colors duration-300 whitespace-nowrap">
             {formatPrice(product.price)}
           </span>
         </div>
-        <p className="text-[10px] text-foreground/40 uppercase tracking-widest">
-          {product.category} • Engineered Fit
-        </p>
+        {product.description && (
+          <p className="text-xs text-foreground/70 line-clamp-2 mt-2 leading-relaxed">
+            {product.description}
+          </p>
+        )}
       </div>
     </Link>
   );

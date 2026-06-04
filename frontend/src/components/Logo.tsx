@@ -10,8 +10,8 @@ export const Logo = ({ className = "", isScrolled = false, theme = "dark" }: { c
   return (
     <div className={`relative ${className} flex items-center justify-center`}>
       <Image
-        src="/images/logo-clean.png"
-        alt="Labels by Nimra"
+        src="/images/new-logo.png"
+        alt="LABEL BY NIMRAH FASHION STORE"
         fill
         className={`object-contain ${isBlack ? "" : "brightness-0 invert"}`}
         priority
