@@ -98,7 +98,7 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar inside structured grid */}
-        <div className="pt-6 border-t border-border/30 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+        <div className="pt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
           <div className="hidden md:block">
              {/* Empty spacer for alignment */}
           </div>

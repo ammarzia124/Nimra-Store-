@@ -20,7 +20,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const fallbackPlaceholder = "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop";
 
   // Build array and implement defensive array-bound checks
-  const rawImages = [product.image, (product as any).secondaryImage].filter(Boolean);
+  const rawImages = [product.image, product.hoverImage].filter(Boolean);
   const imageArray = rawImages.length > 0 ? rawImages : [fallbackPlaceholder];
   const hasMultipleImages = imageArray.length >= 2 && imageArray[0] !== imageArray[1];
 
@@ -41,8 +41,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     <Link 
       href={`/product/${product.id}`}
       className="group flex flex-col cursor-pointer"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <div 
         className="relative bg-foreground/5 mb-6 w-full overflow-hidden"
@@ -50,27 +48,39 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       >
         {/* Task 1 & Task 2: State-driven image rendering loop */}
         <div className="absolute inset-0 w-full h-full">
-          {imageArray.slice(0, 2).map((src, index) => (
+          {/* Default Image */}
+          <Image
+            src={imageArray[0]}
+            alt={`${product.name} - default view`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{ objectFit: 'cover', display: 'block' }}
+            className={`transition-all duration-1000 ease-in-out opacity-100 scale-100 z-10 ${
+              hasMultipleImages ? 'group-hover:opacity-0 group-hover:scale-105 group-hover:z-0' : ''
+            }`}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.srcset = "";
+              target.src = fallbackPlaceholder;
+            }}
+          />
+          
+          {/* Hover Image */}
+          {hasMultipleImages && (
             <Image
-              key={`${src}-${index}`}
-              src={src}
-              alt={`${product.name} - view ${index + 1}`}
+              src={imageArray[1]}
+              alt={`${product.name} - hover view`}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               style={{ objectFit: 'cover', display: 'block' }}
-              className={`transition-all duration-1000 ease-in-out ${
-                activeImageIndex === index 
-                  ? 'opacity-100 scale-100 z-10' 
-                  : 'opacity-0 scale-105 z-0'
-              }`}
+              className="absolute inset-0 transition-all duration-1000 ease-in-out opacity-0 scale-105 z-0 group-hover:opacity-100 group-hover:scale-100 group-hover:z-10"
               onError={(e) => {
-                // Establish Strict Source File Fallbacks on Error
                 const target = e.target as HTMLImageElement;
                 target.srcset = "";
                 target.src = fallbackPlaceholder;
               }}
             />
-          ))}
+          )}
         </div>
 
         {/* Task 1: Top-left Badges */}

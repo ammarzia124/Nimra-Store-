@@ -4,6 +4,7 @@ export interface Product {
   category: "men" | "women" | "kids" | "beauty" | "accessories";
   price: number;
   image: string;
+  hoverImage?: string;
   stock: number;
   description?: string;
   tag?: string;
