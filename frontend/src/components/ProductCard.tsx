@@ -47,10 +47,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         style={{ aspectRatio: '3/4' }}
       >
         {/* Task 1 & Task 2: State-driven image rendering loop */}
-        <div className="absolute inset-0 w-full h-full">
+        <div className="absolute inset-0 w-full h-full pointer-events-none">
           {/* Default Image */}
           <Image
-            src={imageArray[0]}
+            src={imageArray[0] || fallbackPlaceholder}
             alt={`${product.name} - default view`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -68,7 +68,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {/* Hover Image */}
           {hasMultipleImages && (
             <Image
-              src={imageArray[1]}
+              src={imageArray[1] || fallbackPlaceholder}
               alt={`${product.name} - hover view`}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
