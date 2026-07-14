@@ -16,7 +16,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=1920&auto=format&fit=crop",
+    image: "/Clothing Brand images/WhatsApp Image 2026-04-26 at 5.29.14 AM.jpeg", // Women's
     label: "WOMEN",
     subLabel: "WOMEN",
     description: "Discover elegance in every stitch. Our women's collection blends traditional craftsmanship with contemporary design for the perfect silhouette.",
@@ -27,7 +27,7 @@ const slides: Slide[] = [
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?q=80&w=1920&auto=format&fit=crop",
+    image: "/Clothing Brand images/WhatsApp Image 2026-04-26 at 5.29.15 AM.jpeg", // Men's
     label: "MEN",
     subLabel: "MEN",
     description: "Refined styles for the modern man. From classic heritage to modern essentials, explore a collection designed for versatility and impact.",
@@ -38,7 +38,7 @@ const slides: Slide[] = [
   },
   {
     id: 3,
-    image: "/images/kids-hero.png",
+    image: "/Clothing Brand images/WhatsApp Image 2026-04-26 at 5.29.16 AM.jpeg", // Kids
     label: "KIDS",
     subLabel: "KIDS",
     description: "Vibrant colors and comfortable fabrics for the little ones. Dress them in styles that celebrate joy and playful elegance.",
@@ -48,7 +48,7 @@ const slides: Slide[] = [
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1920&auto=format&fit=crop",
+    image: "/Clothing Brand images/WhatsApp Image 2026-04-26 at 5.29.17 AM.jpeg", // Accessories
     label: "ACCESSORIES",
     subLabel: "BEAUTY",
     description: "Enhance your natural grace with our curated beauty essentials and accessories. The perfect finishing touch to your signature look.",
@@ -93,7 +93,7 @@ export const CategoryCarousel = () => {
           className="absolute inset-0 flex flex-col md:flex-row"
         >
           {/* Left Side: Image */}
-          <div className="relative w-full md:w-1/2 h-1/2 md:h-full overflow-hidden">
+          <div className="relative w-full md:w-1/2 h-1/2 md:h-full overflow-hidden bg-gray-100">
             <motion.img
               initial={{ scale: 1.1, x: -20 }}
               animate={{ scale: 1, x: 0 }}

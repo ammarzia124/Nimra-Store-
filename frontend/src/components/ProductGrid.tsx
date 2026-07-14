@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,24 +25,64 @@ const products: Product[] = [
     id: 2,
     name: "Linen Button-Up Shirt",
     price: "Rs. 3,200",
-    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1920&auto=format&fit=crop",
+    image: "/images/hero-4.png",
     category: "New Arrivals",
   },
   {
     id: 3,
     name: "Flowy Wide Leg Trousers",
     price: "Rs. 3,800",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1920&auto=format&fit=crop",
+    image: "/images/hero-5.png",
     category: "New Arrivals",
   },
   {
     id: 4,
     name: "Silk Satin Midi Skirt",
     price: "Rs. 5,200",
-    image: "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?q=80&w=1920&auto=format&fit=crop",
+    image: "/images/hero-2.png",
     category: "New Arrivals",
   },
 ];
+
+const ProductCardItem = ({ product, idx }: { product: Product, idx: number }) => {
+  const [imgSrc, setImgSrc] = useState(product.image);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: idx * 0.1 }}
+      className="group cursor-pointer"
+    >
+      <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 dark:bg-white/5 mb-4">
+        <Image
+          src={imgSrc}
+          alt={product.name}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          onError={() => setImgSrc("/images/hero-2.png")}
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+        <button 
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background text-foreground text-[10px] uppercase tracking-widest px-6 py-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0"
+          onClick={(e) => {
+            e.preventDefault();
+            window.dispatchEvent(new CustomEvent("cart-add"));
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+      <div className="text-center">
+        <h3 className="text-sm font-sans tracking-wide mb-1 uppercase group-hover:underline decoration-1 underline-offset-4">
+          {product.name}
+        </h3>
+        <p className="text-xs text-muted font-medium">{product.price}</p>
+      </div>
+    </motion.div>
+  );
+};
 
 export const ProductGrid = ({ title }: { title: string }) => {
   return (
@@ -53,39 +94,7 @@ export const ProductGrid = ({ title }: { title: string }) => {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
         {products.map((product, idx) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            className="group cursor-pointer"
-          >
-            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 dark:bg-white/5 mb-4">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
-              <button 
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background text-foreground text-[10px] uppercase tracking-widest px-6 py-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.dispatchEvent(new CustomEvent("cart-add"));
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-            <div className="text-center">
-              <h3 className="text-sm font-sans tracking-wide mb-1 uppercase group-hover:underline decoration-1 underline-offset-4">
-                {product.name}
-              </h3>
-              <p className="text-xs text-muted font-medium">{product.price}</p>
-            </div>
-          </motion.div>
+          <ProductCardItem key={product.id} product={product} idx={idx} />
         ))}
       </div>
       

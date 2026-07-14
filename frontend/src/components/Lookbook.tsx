@@ -1,26 +1,55 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Plus } from "lucide-react";
+import Link from "next/link";
 
 const editorialShots = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop", // Women's
+    image: "/Clothing Brand images/WhatsApp Image 2026-04-26 at 5.29.11 AM.jpeg", // Women's
     pos: "top-1/2 left-1/2",
+    link: "/women",
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=800&auto=format&fit=crop", // Men's
+    image: "/Clothing Brand images/WhatsApp Image 2026-04-26 at 5.29.12 AM.jpeg", // Men's
     pos: "top-[40%] left-[60%]",
+    link: "/men",
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?q=80&w=800&auto=format&fit=crop", // Kids
+    image: "/Clothing Brand images/WhatsApp Image 2026-04-26 at 5.29.13 AM.jpeg", // Kids
     pos: "top-[60%] left-[40%]",
+    link: "/kids",
   },
 ];
+
+const LookbookCard = ({ shot, idx }: { shot: typeof editorialShots[0], idx: number }) => {
+  const [imgSrc, setImgSrc] = useState(shot.image);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: idx * 0.2 }}
+      className="relative aspect-[3/4] overflow-hidden group cursor-pointer"
+    >
+      <Image
+        src={imgSrc}
+        alt="Editorial Shot"
+        fill
+        className="object-cover w-full h-full transition-transform duration-[2s] group-hover:scale-110"
+        onError={() => setImgSrc("/images/hero.png")}
+      />
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none" />
+      
+      <Link href={shot.link} className="absolute inset-0 z-10" aria-label="View Category" />
+    </motion.div>
+  );
+};
 
 export const Lookbook = () => {
   return (
@@ -32,28 +61,7 @@ export const Lookbook = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {editorialShots.map((shot, idx) => (
-          <motion.div
-            key={shot.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: idx * 0.2 }}
-            className="relative aspect-[3/4] overflow-hidden group cursor-pointer"
-          >
-            <Image
-              src={shot.image}
-              alt="Editorial Shot"
-              fill
-              className="object-cover transition-transform duration-[2s] group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-            
-            <motion.div 
-              className={`absolute ${shot.pos} -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100 backdrop-blur-sm`}
-            >
-              <Plus className="w-5 h-5 text-black" />
-            </motion.div>
-          </motion.div>
+          <LookbookCard key={shot.id} shot={shot} idx={idx} />
         ))}
       </div>
     </section>
